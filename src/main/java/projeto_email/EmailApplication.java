@@ -1,4 +1,4 @@
-package projeto_email.email;
+package projeto_email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
