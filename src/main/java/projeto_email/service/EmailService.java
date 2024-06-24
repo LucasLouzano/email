@@ -1,4 +1,4 @@
-package projeto_email.email.service;
+package projeto_email.service;
 
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import projeto_email.email.enums.StatusEmail;
-import projeto_email.email.model.EmailModel;
-import projeto_email.email.repository.EmailRepository;
+import projeto_email.enums.StatusEmail;
+import projeto_email.model.EmailModel;
+import projeto_email.repository.EmailRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
