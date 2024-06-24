@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 import projeto_email.enums.StatusEmail;
 import projeto_email.model.EmailModel;
 import projeto_email.repository.EmailRepository;
@@ -16,7 +17,7 @@ import projeto_email.repository.EmailRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-
+@Service
 public class EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     @Autowired
