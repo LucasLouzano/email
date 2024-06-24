@@ -1,8 +1,8 @@
-package projeto_email.email.model;
+package projeto_email.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import projeto_email.email.enums.StatusEmail;
+import projeto_email.enums.StatusEmail;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
