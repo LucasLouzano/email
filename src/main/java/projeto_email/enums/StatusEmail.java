@@ -1,4 +1,4 @@
-package projeto_email.email.enums;
+package projeto_email.enums;
 
 public enum StatusEmail {
     PROCESSING,
