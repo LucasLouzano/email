@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto_email.dto.EmailDTO;
 import projeto_email.model.EmailModel;
+import projeto_email.service.EmailProducer;
 import projeto_email.service.EmailService;
 
 import java.util.Optional;
@@ -23,15 +24,14 @@ public class EmailController {
     private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
     @Autowired
     private EmailService emailService;
-
+    @Autowired
+    private EmailProducer emailProducer;
 
     @PostMapping("/sending-email")
-    public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) {
-        EmailModel emailModel = new EmailModel();
-        BeanUtils.copyProperties(emailDTO, emailModel);
-        EmailModel emailModel1 = emailService.sendEmail(emailModel);
-        logger.info("Email saved with ID {}", emailModel1.getEmailId());
-        return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
+    public ResponseEntity<Void> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) {
+        emailProducer.sendToQueue(emailDTO);
+        logger.info("Email sent to queue with ownerRef {}", emailDTO.getOwnerRef());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/emails")
