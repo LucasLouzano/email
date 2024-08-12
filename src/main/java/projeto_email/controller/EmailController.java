@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto_email.dto.EmailDTO;
+import projeto_email.enums.StatusEmail;
 import projeto_email.model.EmailModel;
 import projeto_email.service.EmailProducer;
 import projeto_email.service.EmailService;
@@ -27,12 +28,23 @@ public class EmailController {
     @Autowired
     private EmailProducer emailProducer;
 
+//    @PostMapping("/sending-email")
+//    public ResponseEntity<Void> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) {
+//        emailProducer.sendToQueue(emailDTO);
+//        logger.info("Email sent to queue with ownerRef {}", emailDTO.getOwnerRef());
+//        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//    }
     @PostMapping("/sending-email")
-    public ResponseEntity<Void> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) {
+    public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDTO emailDTO) {
+        EmailModel emailModel = new EmailModel();
+        BeanUtils.copyProperties(emailDTO, emailModel);
+        emailModel.setStatusEmail(StatusEmail.PROCESSING);
+        emailService.save(emailModel);
         emailProducer.sendToQueue(emailDTO);
-        logger.info("Email sent to queue with ownerRef {}", emailDTO.getOwnerRef());
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        logger.info("Email enqueued with ID {}", emailModel.getEmailId());
+        return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/emails")
     public ResponseEntity<Page<EmailModel>> getAllEmails(@PageableDefault(page = 0, size = 5, sort = "emailId", direction = Sort.Direction.DESC) Pageable pageable) {
