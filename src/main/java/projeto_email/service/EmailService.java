@@ -27,7 +27,7 @@ public class EmailService {
 
     @Transactional
     public EmailModel sendEmail(EmailModel emailModel) {
-        emailModel.setSendDateEmail(LocalDateTime.now());
+
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(emailModel.getEmailFrom());
@@ -42,6 +42,11 @@ public class EmailService {
         } finally {
             return repository.save(emailModel);
         }
+    }
+    @Transactional
+    public EmailModel save(EmailModel emailModel) {
+        emailModel.setSendDateEmail(LocalDateTime.now());
+        return repository.save(emailModel);
     }
 
     public Page<EmailModel> findAll(Pageable pageable) {
